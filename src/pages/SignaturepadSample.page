@@ -1,0 +1,68 @@
+<apex:page standardcontroller="Case" extensions="SignaturepadSampleController" standardStylesheets="false" showHeader="false" >
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
+    
+    <apex:stylesheet value="{!URLFOR($Resource.jquery_signaturepad, 'jquery.signaturepad.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jquery_signaturepad, 'jquery.signaturepad.min.js')}"/>
+    
+    
+    <script type="text/javascript">
+        var SignPadTestApi;
+        var SignFileName="SampleFIleName";
+        var PenWidth = 1;
+        var FormHeight=160;
+        var FormWidth = 600;
+            
+        $(function(){
+             //canvas size
+            $(".pad").attr({width:FormWidth-2, Height:FormHeight});
+            //signature setting
+            SignPadTestApi = $('.sigPad').signaturePad({drawOnly:true, penWidth:PenWidth, penColour:'#000000', lineTop:FormHeight*3/4}); 
+            $('#sigArea').css('width', FormWidth + 1);  
+            $('.sigPad').css('width', FormWidth);  
+            $('.sigWrapper').css('height', FormHeight); 
+        });
+        
+        function saveSign(){
+            if(SignPadTestApi.getSignatureString().length!=2){
+                var fileName = SignFileName;
+                var signData = SignPadTestApi.getSignatureImage();
+                saveSign2Obj(fileName, signData);
+            }
+        }
+    </script>
+    <style>        
+        #sigArea{
+            margin:0px auto;
+        }
+        .sigPad {
+            margin: 0;
+            padding: 0;
+        }
+        .sigWrapper {
+            clear: both;
+            border: 1px solid #ccc;
+        }
+    </style>
+    
+    <div id="sigArea">
+        <h1>attachment sign to {!obj.Id}</h1>
+        <form method="post" action="" class="sigPad">
+            <p class="drawItDesc">Draw your signature</p>
+            <ul class="sigNav">
+                <li class="clearButton"><a href="#clear">Clear</a></li>
+            </ul>
+            <div class="sig sigWrapper">
+                <canvas  class="pad"/>
+                <input type="hidden" name="output" class="output"/>
+            </div>
+            <input type="submit" value="save" onclick="saveSign();"/>
+        </form>
+    </div>
+    
+    <apex:form >
+        <apex:actionFunction name="saveSign2Obj" action="{!saveSIgn2Obj}" rerender="_dummy" status="myStatus">
+            <apex:param name="fileName" assignTo="{!fileName}" value="" />
+            <apex:param name="signData" assignTo="{!signData}" value="" />
+        </apex:actionFunction>
+    </apex:form>
+    </apex:page>

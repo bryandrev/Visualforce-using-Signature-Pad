@@ -1,5 +1,5 @@
 <apex:page standardcontroller="Case" extensions="SignaturepadSampleController" standardStylesheets="false" showHeader="false" >
-    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"/>
     
     <apex:stylesheet value="{!URLFOR($Resource.jquery_signaturepad, 'jquery.signaturepad.css')}"/>
     <apex:includeScript value="{!URLFOR($Resource.jquery_signaturepad, 'jquery.signaturepad.min.js')}"/>
